@@ -1,0 +1,31 @@
+<root>
+  <row>
+    <Employee>
+      <DunkinId>EMP001</DunkinId>
+      <DunkinBranch>BRC001</DunkinBranch>
+      <FirstName>John</FirstName>
+      <LastName>Doe</LastName>
+      <DOB>1990-01-01</DOB>
+      <PhoneNumber>1234567890</PhoneNumber>
+    </Employee>
+    <Payor>
+      <DunkinId>PAY001</DunkinId>
+      <ABARouting>123456789</ABARouting>
+      <AccountNumber>987654321</AccountNumber>
+      <Name>Payor Company</Name>
+      <DBA>Payor DBA</DBA>
+      <EIN>123456789</EIN>
+      <Address>
+        <Line1>Payor Address Line 1</Line1>
+        <City>Payor City</City>
+        <State>Payor State</State>
+        <Zip>12345</Zip>
+      </Address>
+    </Payor>
+    <Payee>
+      <PlaidId>PLAID001</PlaidId>
+      <LoanAccountNumber>LOAN001</LoanAccountNumber>
+    </Payee>
+    <Amount>100.50</Amount>
+  </row>
+</root>

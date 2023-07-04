@@ -1,0 +1,46 @@
+name: Webapp CI/CD
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - "app/**"
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: 18
+
+      - name: Package install
+        working-directory: app
+        run: yarn install --frozen-lockfile --production=true
+
+      - name: App build
+        working-directory: app
+        env:
+          REACT_APP_API_BASE_URL: ${{ vars.REACT_APP_API_BASE_URL }}
+        run: NODE_ENV=production yarn build
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ vars.AWS_REGION }}
+
+      - name: Deploy to S3 bucket
+        working-directory: app
+        env:
+          S3_BUCKET_NAME: ${{ vars.S3_BUCKET_NAME }}
+        run: |
+          aws s3 sync ./build s3://$S3_BUCKET_NAME/ --delete

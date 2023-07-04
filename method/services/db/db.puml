@@ -1,0 +1,43 @@
+@startuml
+
+!define Table(name, desc) class name as "desc" << (T,#FFAAAA) >>
+!define PrimaryKey(x) <u>x</u>
+!define ForeignKey(x) <&x&>
+!define Default(x) <i>x</i>
+
+hide empty members
+
+Table(Employees, "Employees") {
+  +PrimaryKey(employee_id)
+  branch_id
+  first_name
+  last_name
+  dob
+  phone_number
+}
+
+Table(Payors, "Payors") {
+  +PrimaryKey(payor_id)
+  aba_routing
+  account_number
+  name
+  dba
+  ein
+  address_line1
+  city
+  state
+  zip
+}
+
+Table(Payments, "Payments") {
+  +PrimaryKey(payment_id)
+  +ForeignKey(employee_id) REFERENCES Employees(employee_id)
+  +ForeignKey(payor_id) REFERENCES Payors(payor_id)
+  plaid_id
+  loan_account_number
+  amount
+  status Default('pending')
+  batch_id
+}
+
+@enduml
